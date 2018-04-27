@@ -12,7 +12,8 @@ var config = {
     entry: path.join(APP_DIR + '/index.jsx'),
     output: {
         path: BUILD_DIR,
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        publicPath: '/'
     },
     contentBase: 'build/',
     publicPath: "/",
@@ -49,7 +50,8 @@ var config = {
             target: 'http://localhost:8080',
             secure: false
           }
-        }
+        },
+        historyApiFallback: true,
     }
 };
 
