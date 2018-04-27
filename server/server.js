@@ -5,7 +5,8 @@ var path = require('path');
 var models = require('./models.js');
 var constants = require('./constants.js');
 var firebase = require('firebase');
-const bodyParser= require('body-parser')
+var crypto = require('crypto');
+const bodyParser= require('body-parser');
 
 var app = express();
 var server = http.createServer(app);
@@ -164,23 +165,23 @@ app.post('/api/register', (req, res) => {
   res.statusCode = 200;
   if (first_name != '' && last_name != '' && email != '' && username != '' && password != '')
   {
+    var md5sum = crypto.createHash('md5');
     var rootRef = firebase.database().ref();
     var userRef = rootRef.child("users");
     var found = false, count = 0;
+    password = md5sum.update(password).digest('hex');
     userRef.on("value", function(snapshot) {
       console.log(++count);
     })
     if (count > 0)
     {
       userRef.orderByChild('email').equalTo(email).on("value", function(snapshot) {
-        res.statusCode = 206;
+        res.statusCode = 204;
         found = true;
-        console.log('email same');
       })
       userRef.orderByChild('username').equalTo(username).on("value", function(snapshot) {
-        res.statusCode = 206;
+        res.statusCode = 204;
         found = true;
-        console.log('username same');
       })
     }
     if (found == false)
@@ -190,7 +191,7 @@ app.post('/api/register', (req, res) => {
         first_name:   first_name,
         last_name:    last_name,
         email:        email,
-        username:    username,
+        username:     username,
         password:     password
       });
     }

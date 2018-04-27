@@ -88,6 +88,10 @@ class RegisterPage extends React.Component {
             isLogin:true
           });
         }
+        else if (response.data.code == 204){
+          console.log("Email or Username is already existed");
+          alert("Email or Username is already existed")
+        }
       })
       .catch(function (error) {
         console.log(error);
