@@ -1,0 +1,52 @@
+{
+  "name": "Chat_bot",
+  "version": "1.0.0",
+  "description": "Chat application using nodejs, sockjs and reactjs",
+  "main": "index.js",
+  "scripts": {
+    "production-build": "webpack",
+    "production-run": "node server/server.js",
+    "production": "NODE_ENV=production npm run production-build && npm run production-run",
+    "watch": "concurrently \"npm run watch-server\" \"npm run watch-client\"",
+    "watch-client": "webpack-dev-server --inline --hot --port 3000",
+    "watch-server": "nodemon server/server.js"
+  },
+  "keywords": [
+    "nodejs",
+    "reactjs",
+    "sockjs"
+  ],
+  "author": "xTrinch",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "babel": "^6.23.0",
+    "babel-core": "^6.25.0",
+    "clean-webpack-plugin": "^0.1.16",
+    "copy-webpack-plugin": "^3.0.1",
+    "express": "^4.15.3",
+    "jquery": "^3.1.0",
+    "material-ui": "^0.20.0",
+    "object.assign": "^4.1.0",
+    "react": "^15.3.0",
+    "react-dom": "^15.6.2",
+    "react-layout": "^1.1.0",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.2.0",
+    "sockjs": "^0.3.19",
+    "webpack": "^1.15.0"
+  },
+  "devDependencies": {
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-react": "^6.11.1",
+    "css-loader": "^0.23.1",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
+    "style-loader": "^0.13.1",
+    "webpack-dev-server": "^1.14.1"
+  }
+}
