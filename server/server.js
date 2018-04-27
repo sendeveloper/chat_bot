@@ -4,6 +4,7 @@ var express = require('express');
 var path = require('path');
 var models = require('./models.js');
 var constants = require('./constants.js');
+var cors=require('cors');
 
 var app = express();
 var server = http.createServer(app);
@@ -132,16 +133,21 @@ server.listen(port, '0.0.0.0', function() {
     console.log("Listening on " + port);
 })
 
-// API
+// API Call
+app.use(cors({origin:true,credentials: true}));
+
 app.post('/api/login', function(req, res) {
   var email = req.query.email,
       pass = req.query.password;
+  res.statusCode = 200;
   res.json(req.query);
-  res.json("post success");
 });
-app.get('/api/login', function(req, res) {
-  var email = req.query.email,
-      pass = req.query.password;
+
+app.post('/api/register', function(req, res) {
+  var first_name = req.query.email,
+      last_name = req.query.last_name,
+      email     = req.query.email,
+      password  = req.query.password;
+  res.statusCode = 200;
   res.json(req.query);
-  res.json("get success");
-});
+})
