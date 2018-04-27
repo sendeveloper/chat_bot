@@ -9,7 +9,7 @@ class LoginPage extends React.Component {
 	constructor(props, context) {
 		super(props, context);
     this.state={
-      username:'',
+      email:'',
       password:''
     }
 	}
@@ -20,10 +20,11 @@ class LoginPage extends React.Component {
           <div>
           <AppBar title="Login" />
           <TextField
-             hintText="Enter your Username"
-             floatingLabelText="Username"
-             onChange = {(event,newValue) => this.setState({username:newValue})}
-             />
+            hintText="Enter your Email"
+            type="email"
+            floatingLabelText="Email"
+            onChange = {(event,newValue) => this.setState({email:newValue})}
+           />
           <br/>
           <TextField
            type="password"
@@ -42,9 +43,10 @@ class LoginPage extends React.Component {
     var apiBaseUrl = "http://localhost:8080/api/";
     var self = this;
     var payload={
-      "email":this.state.username,
+      "email":this.state.email,
       "password":this.state.password
     }
+    console.log(payload);
     axios.post(apiBaseUrl+'login', payload) 
       .then(function (response) {
         console.log(response);
@@ -55,12 +57,12 @@ class LoginPage extends React.Component {
           self.props.appContext.setState({loginPage:[],uploadScreen:uploadScreen})
         }
         else if(response.data.code == 204){
-          console.log("Username password do not match");
-          alert("username password do not match")
+          console.log("Email password do not match");
+          alert("Email password do not match")
         }
         else{
-          console.log("Username does not exists");
-          alert("Username does not exist");
+          console.log("Email does not exists");
+          alert("Email does not exist");
         }
       })
       .catch(function (error) {

@@ -131,3 +131,17 @@ sockjs_chat.installHandlers(server, {prefix:'/chat'});
 server.listen(port, '0.0.0.0', function() {
     console.log("Listening on " + port);
 })
+
+// API
+app.post('/api/login', function(req, res) {
+  var email = req.query.email,
+      pass = req.query.password;
+  res.json(req.query);
+  res.json("post success");
+});
+app.get('/api/login', function(req, res) {
+  var email = req.query.email,
+      pass = req.query.password;
+  res.json(req.query);
+  res.json("get success");
+});

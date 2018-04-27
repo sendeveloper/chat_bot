@@ -44,7 +44,7 @@ ReactDOM.render(
         <Route exact path='/' component={App}/>
         <Route path='/login' onEnter={checkAuth} component={LoginPage}/>
         <Route path='/register' onEnter={checkAuth} component={RegisterPage}/>
-        <Route path='/home' onEnter={checkAuth} component={HomePage}/>  
+        <Route path='/home' onEnter={checkAuth} component={HomePage}/>
       </div>
     </BrowserRouter>,
   document.getElementById('react-app')

@@ -51,6 +51,12 @@ var config = {
             secure: false
           }
         },
+        proxy: {
+          '/api/login': {
+            target: 'http://localhost:8080',
+            secure: false
+          }
+        },
         historyApiFallback: true,
     }
 };
