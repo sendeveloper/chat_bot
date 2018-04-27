@@ -4,7 +4,8 @@ var express = require('express');
 var path = require('path');
 var models = require('./models.js');
 var constants = require('./constants.js');
-var cors=require('cors');
+var firebase = require('firebase');
+const bodyParser= require('body-parser')
 
 var app = express();
 var server = http.createServer(app);
@@ -134,20 +135,69 @@ server.listen(port, '0.0.0.0', function() {
 })
 
 // API Call
-app.use(cors({origin:true,credentials: true}));
+firebase.initializeApp(constants.firebase_config);
 
-app.post('/api/login', function(req, res) {
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+}
+
+app.use(allowCrossDomain);
+
+app.post('/api/login', (req, res) => {
   var email = req.query.email,
       pass = req.query.password;
   res.statusCode = 200;
-  res.json(req.query);
+  res.json(req.body);
 });
 
-app.post('/api/register', function(req, res) {
-  var first_name = req.query.email,
-      last_name = req.query.last_name,
-      email     = req.query.email,
-      password  = req.query.password;
+app.post('/api/register', (req, res) => {
+  var first_name = req.body.first_name,
+      last_name = req.body.last_name,
+      email     = req.body.email,
+      username  = req.body.username;
+      password  = req.body.password;
   res.statusCode = 200;
-  res.json(req.query);
+  if (first_name != '' && last_name != '' && email != '' && username != '' && password != '')
+  {
+    var rootRef = firebase.database().ref();
+    var userRef = rootRef.child("users");
+    var found = false, count = 0;
+    userRef.on("value", function(snapshot) {
+      console.log(++count);
+    })
+    if (count > 0)
+    {
+      userRef.orderByChild('email').equalTo(email).on("value", function(snapshot) {
+        res.statusCode = 206;
+        found = true;
+        console.log('email same');
+      })
+      userRef.orderByChild('username').equalTo(username).on("value", function(snapshot) {
+        res.statusCode = 206;
+        found = true;
+        console.log('username same');
+      })
+    }
+    if (found == false)
+    {
+      var newUserRef = userRef.push();
+      newUserRef.set({
+        first_name:   first_name,
+        last_name:    last_name,
+        email:        email,
+        username:    username,
+        password:     password
+      });
+    }
+  }
+  else
+  {
+
+  }
+  res.json(req.body);
 })

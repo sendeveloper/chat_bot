@@ -14,6 +14,7 @@ class RegisterPage extends React.Component {
       first_name:'',
       last_name:'',
       email:'',
+      username: '',
       password:''
     }
   }
@@ -43,6 +44,12 @@ class RegisterPage extends React.Component {
              />
             <br/>
             <TextField
+              hintText="Enter your username"
+              floatingLabelText="Username"
+              onChange = {(event,newValue) => this.setState({username:newValue})}
+             />
+            <br/>
+            <TextField
               type = "password"
               hintText="Enter your Password"
               floatingLabelText="Password"
@@ -57,22 +64,23 @@ class RegisterPage extends React.Component {
 	}
   handleClick(event){
     var apiBaseUrl = "http://localhost:8080/api/";
-    console.log("values",this.state.first_name,this.state.last_name,this.state.email,this.state.password);
     //To be done:check for empty values before hitting submit
     var self = this;
     var payload={
       "first_name": this.state.first_name,
       "last_name":this.state.last_name,
       "email":this.state.email,
+      "username":this.state.username,
       "password":this.state.password
     }
+    console.log(payload);
     axios.post(apiBaseUrl+'register', payload)
       .then(function (response) {
         console.log(response);
         if(response.data.code == 200){
           //  console.log("registration successfull");
           var loginscreen=[];
-          loginscreen.push(<Login parentContext={this}/>);
+          loginscreen.push(<LoginPage parentContext={this}/>);
           var loginmessage = "Not Registered yet.Go to registration";
           self.props.parentContext.setState({loginscreen:loginscreen,
             loginmessage:loginmessage,
